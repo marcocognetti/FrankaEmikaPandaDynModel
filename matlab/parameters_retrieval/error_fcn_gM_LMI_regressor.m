@@ -1,0 +1,168 @@
+% author: Claudio Gaz, Marco Cognetti
+% date: August 2, 2019
+% 
+% -------------------------------------------------
+% Parameters Retrieval Algorithm
+% -------------------------------------------------
+% C. Gaz, M. Cognetti, A. Oliva, P. Robuffo Giordano, A. De Luca, 'Dynamic
+% Identification of the Franka Emika Panda Robot With Retrieval of Feasible
+% Parameters Using Penalty-Based Optimization'. IEEE RA-L, 2019.
+%
+% the following code has been tested on Matlab 2018b
+
+function [loss] = error_fcn_gM_LMI_regressor(x)
+
+global SA_step Y_stack_LI tau_stack P_li_full_subs num_of_samples use_complete_regressor
+
+if SA_step == 1
+    penalty = 0;
+else
+    penalty = 10*(SA_step-1);
+end
+
+m1 = x(1);
+m2 = x(2);
+m3 = x(3);
+m4 = x(4);
+m5 = x(5);
+m6 = x(6);
+m7 = x(7);
+c1x = x(8);
+c1y = x(9);
+c1z = x(10);
+c2x = x(11);
+c2y = x(12);
+c2z = x(13);
+c3x = x(14);
+c3y = x(15);
+c3z = x(16);
+c4x = x(17);
+c4y = x(18);
+c4z = x(19);
+c5x = x(20);
+c5y = x(21);
+c5z = x(22);
+c6x = x(23);
+c6y = x(24);
+c6z = x(25);
+c7x = x(26);
+c7y = x(27);
+c7z = x(28);
+
+I1xx = x(29);
+I1xy = x(30);
+I1xz = x(31);
+I1yy = x(32);
+I1yz = x(33);
+I1zz = x(34);
+I2xx = x(35);
+I2xy = x(36);
+I2xz = x(37);
+I2yy = x(38);
+I2yz = x(39);
+I2zz = x(40);
+I3xx = x(41);
+I3xy = x(42);
+I3xz = x(43);
+I3yy = x(44);
+I3yz = x(45);
+I3zz = x(46);
+I4xx = x(47);
+I4xy = x(48);
+I4xz = x(49);
+I4yy = x(50);
+I4yz = x(51);
+I4zz = x(52);
+I5xx = x(53);
+I5xy = x(54);
+I5xz = x(55);
+I5yy = x(56);
+I5yz = x(57);
+I5zz = x(58);
+I6xx = x(59);
+I6xy = x(60);
+I6xz = x(61);
+I6yy = x(62);
+I6yz = x(63);
+I6zz = x(64);
+I7xx = x(65);
+I7xy = x(66);
+I7xz = x(67);
+I7yy = x(68);
+I7yz = x(69);
+I7zz = x(70);
+
+fc1 = x(71);
+fc2 = x(72);
+fc3 = x(73);
+fc4 = x(74);
+fc5 = x(75);
+fc6 = x(76);
+fc7 = x(77);
+
+fv1 = x(78);
+fv2 = x(79);
+fv3 = x(80);
+fv4 = x(81);
+fv5 = x(82);
+fv6 = x(83);
+fv7 = x(84);
+
+fo1 = x(85);
+fo2 = x(86);
+fo3 = x(87);
+fo4 = x(88);
+fo5 = x(89);
+fo6 = x(90);
+fo7 = x(91);
+
+P_li_expanded_eval = get_Panda_coefficients_expanded(I2xx,I2xy,I3xx,I2xz,I3xy,I4xx,I3xz,I4xy,I5xx,I4xz,I5xy,I6xx,I5xz,I6xy,I7xx,I6xz,I7xy,I7xz,I2yy,I2yz,I3yy,I3yz,I4yy,I4yz,I5yy,I5yz,I6yy,I6yz,I7yy,I7yz,I1zz,I2zz,I3zz,I4zz,I5zz,I6zz,I7zz,c1x,c2x,c3x,c4x,c5x,c6x,c7x,c1y,c2y,c3y,c4y,c5y,c6y,c7y,c2z,c3z,c4z,c5z,c6z,c7z,fc1,fc2,fc3,fc4,fc5,fc6,fc7,fo1,fo2,fo3,fo4,fo5,fo6,fo7,fv1,fv2,fv3,fv4,fv5,fv6,fv7,m1,m2,m3,m4,m5,m6,m7);
+
+% compute error vector, as the difference of current dynamic coeff values
+% and previously estimated dyn coeff values, as follows:
+% Y_stack*pi(p_k) - tau_stack
+error = Y_stack_LI*P_li_expanded_eval - tau_stack;
+
+loss = (error'*error);
+
+%------------------------------------------------
+% External Penalties
+%------------------------------------------------
+
+% conditions on total mass
+
+min_mass = 16;
+max_mass = 20;
+
+if m1+m2+m3+m4+m5+m6+m7 < min_mass
+    loss = loss + penalty*(min_mass-(m1+m2+m3+m4+m5+m6+m7));
+end
+if m1+m2+m3+m4+m5+m6+m7 > max_mass
+    loss = loss + penalty*(m1+m2+m3+m4+m5+m6+m7-max_mass);
+end
+
+% conditions on inertia tensors: triangle inequalities
+
+% link 1
+I1 = [I1xx,I1xy,I1xz ; I1xy,I1yy,I1yz ; I1xz,I1yz,I1zz];
+loss = check_inertia_condition(I1,loss,penalty);
+% link 2
+I2 = [I2xx,I2xy,I2xz ; I2xy,I2yy,I2yz ; I2xz,I2yz,I2zz];
+loss = check_inertia_condition(I2,loss,penalty);
+% link 3
+I3 = [I3xx,I3xy,I3xz ; I3xy,I3yy,I3yz ; I3xz,I3yz,I3zz];
+loss = check_inertia_condition(I3,loss,penalty);
+% link 4
+I4 = [I4xx,I4xy,I4xz ; I4xy,I4yy,I4yz ; I4xz,I4yz,I4zz];
+loss = check_inertia_condition(I4,loss,penalty);
+% link 5
+I5 = [I5xx,I5xy,I5xz ; I5xy,I5yy,I5yz ; I5xz,I5yz,I5zz];
+loss = check_inertia_condition(I5,loss,penalty);
+% link 6
+I6 = [I6xx,I6xy,I6xz ; I6xy,I6yy,I6yz ; I6xz,I6yz,I6zz];
+loss = check_inertia_condition(I6,loss,penalty);
+% link 7
+I7 = [I7xx,I7xy,I7xz ; I7xy,I7yy,I7yz ; I7xz,I7yz,I7zz];
+loss = check_inertia_condition(I7,loss,penalty);
+
+end
