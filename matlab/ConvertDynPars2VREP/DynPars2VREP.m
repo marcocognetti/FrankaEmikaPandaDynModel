@@ -81,12 +81,11 @@ for i=1:7
     msg = strcat('mass =  ',num2str(m(i)),' [Kg]');
     disp(msg)
     disp('Inertia matrix [m^2]= ')
-    T = [eye(3),CoM_l(:,i) ;0 0 0 1];
-    %express the Barycentral Inertia tensor in link frame (are parallels)
+    T = [chain(1:3,1:3,i),CoM_l(:,i) ;0 0 0 1];
+    % express the Barycentral Inertia tensor in link frame (are parallels)
+    % and orient it as the base (world) frame and depurate it from its mass
     J(:,:,i) = GeneralizedSteiner(T,vec2sm(Il(i,:),3),m(i));
-    % now rotate the link inertia tensor as the base (world) frame and
-    % depurate it from its mass
-    msg = num2str((chain(1:3,1:3,i)*J(:,:,i)*chain(1:3,1:3,i)')/m(i));
+    msg = num2str(J(:,:,i)/m(i));
     T = [chain(1:3,1:3,i),w_CoM(:,i);0 0 0 1];
     PlotFrame(T,strcat('{I_',num2str(i+1),'}'));
     disp(msg)
