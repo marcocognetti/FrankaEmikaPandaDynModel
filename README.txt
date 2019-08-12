@@ -15,4 +15,6 @@ The folder are organized as follows:
      |__utils: A set of useful utility functions
      |__data: Contain the datasets used in the identification process and other data
      |__generate_joint_traj: Contains a set of tools for joint trajectory generation
-     |__ConvertDynPars2VREP: Tool that converts the retrieved dynamic parameters according to the V-REP interface 
+     |__ConvertDynPars2VREP: Tool that converts the retrieved dynamic parameters according to the V-REP interface
+2) V-REP
+     |_models/FrankaEmikaPanda.ttm: the dynamic model of the Franka Emika Panda robot in V-REP
