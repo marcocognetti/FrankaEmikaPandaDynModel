@@ -12,7 +12,7 @@ The package contains Matlab code and it has been tested on Matlab 2018b. It is c
 
 - main.m: this is the file to be run from a Matlab shell to execute the algorithm. It is a demo file.
 - get_CoriolisMatrix.m contains a function that returns the numerical Coriolis and centrifugal forces matrix C(q,dq) in Real^{7x7} given the joint positions q and velocities dq.
-- get_CoriolisMatrix.m contains a function that returns the numerical Coriolis and centrifugal forces vector c(q,dq) = C(q,dq)*dq in Real^7 given the joint positions q and velocities dq.
+- get_CoriolisVector.m contains a function that returns the numerical Coriolis and centrifugal forces vector c(q,dq) = C(q,dq)*dq in Real^7 given the joint positions q and velocities dq.
 - get_FrictionTorque.m contains a function that returns the numerical joint friction vector tauF(dq) in Real^7, given the joint velocities dq.
 - get_GravityVector.m contains a function that returns the numerical gravity vector g(q) in Real^7, given the joint positions q.
 - get_MassMatrix.m contains a function that returns the numerical inertia matrix M(q) in Real^{7x7}, given the joint positions q.
