@@ -1,3 +1,6 @@
+author: Claudio Gaz, Marco Cognetti, Alexander Oliva
+date: September 4, 2019
+
 -------------------------------------------------
 Panda Dynamic Model - Matlab Version 1.0
 -------------------------------------------------
