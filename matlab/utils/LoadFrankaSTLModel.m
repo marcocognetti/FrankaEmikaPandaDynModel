@@ -33,6 +33,7 @@ zlabel('Z')
 xlim([-0.3 0.3]) 
 ylim([-0.3 0.3])
 zlim([0 1.2])
+title('CoM of the links of the Franka Emika Panda Robot')
 
 link0 = stlread(file_link0);
 patch(link0,'FaceColor',       [0.8 0.8 1.0], ...

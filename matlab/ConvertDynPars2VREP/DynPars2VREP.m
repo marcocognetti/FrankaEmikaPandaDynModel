@@ -20,23 +20,8 @@ clc;
 
 addpath ../utils ../data/FrankaSTLModel
 
-[DH, Convention] = Load_Franka_DH();
-q = [ 0; 0; 0; 0; 0; 0; 0; 0];
-chain = FramesChainFromDH(DH,q,Convention);
-
 %% Load the STL model. The loaded meshes are the convex hull of the links
 LoadFrankaSTLModel
-
-PlotChain(chain);
-axis vis3d equal
-hold on
-grid on
-xlabel('X')
-ylabel('Y')
-zlabel('Z')
-xlim([-0.3 0.3]) 
-ylim([-0.3 0.3])
-zlim([0 1.2])
 
 %%                     Retrived Dynamic Parameters
 Il=[7.0337e-01, -1.3900e-04, 6.7720e-03, 7.0661e-01, 1.9169e-02, 9.1170e-03;
@@ -82,7 +67,7 @@ for i=1:7
     disp(msg)
     disp('Inertia matrix [m^2]= ')
     T = [chain(1:3,1:3,i),CoM_l(:,i) ;0 0 0 1];
-    % express the Barycentral Inertia tensor in link frame (are parallels)
+    % express the Barycentral Inertia tensor (I) in link frame (J) (I -> J)
     % and orient it as the base (world) frame and depurate it from its mass
     J(:,:,i) = GeneralizedSteiner(T,vec2sm(Il(i,:),3),m(i));
     msg = num2str(J(:,:,i)/m(i));
