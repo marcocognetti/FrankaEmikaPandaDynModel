@@ -19,3 +19,5 @@ The folder are organized as follows:
      |__dyn_model_panda: It contains the dynamical model of the Franka Emika Panda Robot in Matlab
 2) V-REP
      |_models/FrankaEmikaPanda.ttm: the dynamic model of the Franka Emika Panda robot in V-REP
+3) pdf
+     |_RA-L_2019_PandaDynIdent_SUPPLEMENTARY_MATERIAL.pdf: this file includes the supplementary material of our paper. It includes the friction parameters, the validation in V-REP and the extracted feasible parameters
