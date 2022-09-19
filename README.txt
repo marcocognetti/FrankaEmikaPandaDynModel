@@ -4,7 +4,7 @@ date: August 2, 2019
 Contacts:
 - gaz@diag.uniroma1.it
 - marco.cognetti@irisa.fr
-- alexander.oliva@inria.fr
+- olivalex86@gmail.com (alexander.oliva@inria.fr is no longer available)
 
 This repository contains the code regarding the paper 
 C. Gaz, M. Cognetti, A. Oliva, P. Robuffo Giordano, A. De Luca, 'Dynamic Identification of the Franka Emika Panda Robot With Retrieval of Feasible Parameters Using Penalty-Based Optimization'. IEEE RA-L, 2019.
