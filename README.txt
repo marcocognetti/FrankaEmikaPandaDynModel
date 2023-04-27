@@ -26,7 +26,7 @@ The folder are organized as follows:
      |__README.txt
      |__Robot_vs_Model_torques.jpg
 
-Require MATLAB Toolboxes:
+Required MATLAB Toolboxes:
 - Symbolic Math Toolbox
 - Global Optimization Toolbox
 - Robotics System Toolbox [for ConvertDynPars2VREP]
