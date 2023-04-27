@@ -25,3 +25,10 @@ The folder are organized as follows:
      |__panda_dyn_model_example/ : cpp example that compute the joint torques from the model.
      |__README.txt
      |__Robot_vs_Model_torques.jpg
+
+Required MATLAB Toolboxes:
+- Symbolic Math Toolbox
+- Global Optimization Toolbox
+- Robotics System Toolbox [for ConvertDynPars2VREP]
+- Robust Control Toolbox [for ConvertDynPars2VREP]
+
