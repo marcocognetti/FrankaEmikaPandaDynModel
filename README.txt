@@ -25,3 +25,6 @@ The folder are organized as follows:
      |__panda_dyn_model_example/ : cpp example that compute the joint torques from the model.
      |__README.txt
      |__Robot_vs_Model_torques.jpg
+5) python/
+     |__example.py : python example that compute the joint torques from the model.
+     |__README.md : instructions to compile the python module.
